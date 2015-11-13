@@ -52,7 +52,7 @@ def train_model(X, y, clf):
         test_scores.append(test_score)
 
         y_predict = clf.predict(X_test)
-        cm = confusion_matrix(y_test, y_predict)
+        cm = confusion_matrix(y_test, y_predict, labels=TARGET_INSTRUMENTS)
         cms.append(cm)
     return np.mean(test_scores), np.mean(train_scores), np.asarray(cms)
 
@@ -78,7 +78,7 @@ def rf_classify(X, y):
     rf = RandomForestClassifier(500,criterion="entropy", n_jobs=-1)
     test_score, train_score, cms = train_model(X, y, rf)
 
-    # print(var_importance(rf))
+    print(var_importance(rf))
     print("test_score : %f\ntrain_score: %f\n" %(test_score, train_score))
     # print(cms)
     return test_score, train_score, rf
@@ -95,19 +95,23 @@ def read_instruments(standardize=False):
     X, y = read_features()
     instruments = [ins[1] for ins in y]
     X = np.asarray(X)
+    scaler = None
     if standardize:
-        X = preprocessing.scale(X)
+        scaler = preprocessing.StandardScaler().fit(X)
+        X = scaler.transform(X)
     y = np.asarray(instruments)
-    return X, y
+    return X, y, scaler
 
 def read_class(standardize=False):
     X, y = read_features()
     instruments = [ins[0] for ins in y]
     X = np.asarray(X)
+    scaler = None
     if standardize:
-        X = preprocessing.scale(X)
+        scaler = preprocessing.StandardScaler().fit(X)
+        X = scaler.transform(X)
     y = np.asarray(instruments)
-    return X, y
+    return X, y, scaler
 
 def important_features(X, n):
     """take the best n features"""
@@ -129,7 +133,7 @@ def plot_select_features(X, y):
     plt.savefig(os.path.join('.', 'image', 'feature', "%s.png" % "svm_tuning_best_features"), bbox_inches="tight")
 
 def svm_tuning(X, y):
-    C_range = np.linspace(6, 8, 20)
+    C_range = np.linspace(5, 15, 20)
     gamma_range = np.linspace(0.005, 0.015, 20)
     param_grid = dict(gamma=gamma_range, C=C_range)
     cv = cross_validation.StratifiedKFold(y, n_folds=4, shuffle=True,random_state=5)
@@ -139,7 +143,7 @@ def svm_tuning(X, y):
     return grid.best_score_, None
 
 def svm_classifier(X, y):
-    svm = SVC(C=7.4736842105263159, gamma=0.0065789473684210523)
+    svm = SVC(C=8.6842105263157894, gamma=0.01131578947368421)
     test_score, train_score, cms = train_model(X, y, svm)
 
     print("test_score : %f\ntrain_score: %f\n" %(test_score, train_score))
@@ -149,20 +153,26 @@ def svm_classifier(X, y):
 def save_model(clf, fn):
     joblib.dump(clf, os.path.join('.','model',"%s.pkl" % fn))
 
-def predict(clf, n_features, file_path):
+def predict(clf, file_path, scaler, n_features=None):
     data, y = preprocess(file_path)
     X = extract_all_features(data, 44100)
     X = np.asmatrix(X)
-    selected_features = important_features(X, n_features)
+    if scaler:
+        X = scaler.transform(X)
+        print X
+    if n_features:
+        X = important_features(X, n_features)
     print X.shape
-    print(clf.predict(selected_features))
+    print(clf.predict(X))
 
 
 if __name__ == "__main__":
-    X, y = read_instruments(standardize=True)
-    selected_features = important_features(X, 38)
-    test_score, train_score, svm = svm_classifier(selected_features, y)
+    X, y, scaler = read_instruments(standardize=True)
+    # selected_features = important_features(X, 38)
+    test_score, train_score, svm = svm_classifier(X , y)
 
-    predict(svm, 38, TEST_DATA)
+    # test_score, train_score, rf = rf_classify(X, y)
+
+    predict(svm, TEST_DATA, scaler)
 
 

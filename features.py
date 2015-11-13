@@ -138,8 +138,8 @@ def extractTemporalFeature(wavedata):
     rmss = []
     for frame in sliding_window(wavedata, 1024, 512):
         zcrs.append(zcr(frame, np.max(np.abs(wavedata))))
-        rmss.append(rms(frame))
-    return [zcrs, rmss]
+        # rmss.append(rms(frame))
+    return [zcrs]
 
 def extractSpectralFeature(wavedata, rate):
     """frequency domain features"""
@@ -207,22 +207,23 @@ def feature_matrix():
 def feature_names():
     feature_names = ["spectralCentroid_mean", "spectralCentroid_std", "spectralSpread_mean", "spectralSpread_std",
                      "spectralFlux_mean", "spectralFlux_std", "spectralIrregularity_mean", "spectralIrregularity_std",
-                     "spectralFlatness_mean", "spectralFlatness.std", "zeroCrossingRate_mean", "zeroCrossingRate_std",
-                     "rootMeanSquare_mean", "rootMeanSquare_std"]
+                     "spectralFlatness_mean", "spectralFlatness.std", "zeroCrossingRate_mean", "zeroCrossingRate_std"
+                     ]
     mfcc_names = ["mfcc%d_%s" % (ind, stat) for stat in ["mean","std"] for ind in xrange(1,14) ]
     harmonic_names = ["harmonicCentroid", "harmonicDeviation", "harmonicSpead"]
     temporal_names = ["logAttackTime", "temporalCentroid"]
     return feature_names + mfcc_names + harmonic_names + temporal_names
 
 def save_feature_matrix(X,Y):
-    pickle.dump(X, open('features.p', 'w'))
+    print len(X)
+    pickle.dump(X, open('features2.p', 'w'))
     pickle.dump(Y, open('labels.p', 'w'))
 
 def read_features():
-    X = pickle.load(open('features.p', 'rb'))
+    X = pickle.load(open('features2.p', 'rb'))
     Y = pickle.load(open('labels.p','rb'))
     return X, Y
 
 if __name__ == "__main__":
     X, Y = read_features()
-    print len(Y)
+    print len(X[0])

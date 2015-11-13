@@ -67,6 +67,13 @@ To classify the instruments, the best 37 features gives 0.975139.
 To classify the class of the instruments, all features gives 0.994444.
     `params = (C=4.3157894736842106, gamma=0.0086842105263157891)`
 
+remove rms features with 0.975132
+    `params = (C=8.6842105263157894, gamma=0.01131578947368421)`
+string_guitar_C2.wav -> guitar
+string_guitar_C3.wav -> piano
+keyboard_piano_C2.wav -> Cello
+keyboard_piano_C3.wav -> Piano
+
 ## Resources
 
  * [MPEG-7 Audio Descriptors](http://www-sipl.technion.ac.il/Info/Teaching_Projects_MPEG-7-Audio-Descriptors_e.shtml)

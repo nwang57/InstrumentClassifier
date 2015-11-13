@@ -8,7 +8,7 @@ import scipy.io.wavfile
 import matplotlib.pyplot as plt
 
 
-TEST_DATA = "/Users/nickwang/Documents/Programs/cs_project/resources/data/test/keyboard_piano_C2.wav"
+TEST_DATA = "/Users/nickwang/Documents/Programs/cs_project/resources/data/test/string_guitar_C2.wav"
 DATA_DIR = "/Users/nickwang/Documents/Programs/cs_project/resources/data"
 DATA = "Cello.arco.ff.sulA.A4.stereo.wav"
 TARGET_INSTRUMENTS = ["TenorTrombone", "Trumpet", "Tuba",
@@ -68,7 +68,7 @@ def find_cutoff(wavedata, rate, window_size = 1024):
         tol = 0.5
     ref_small_window = np.mean(abs(wavedata[0:window_size]))
     result = []
-    for ind in xrange(num_flat_windows):
+    for ind in xrange(num_flat_windows-1):
         start = ind * flat_window_size
         end = min(start + flat_window_size, len(wavedata))
         stat = np.max(abs(wavedata[start:end]))
@@ -102,6 +102,7 @@ def clip_wavedata(wavedata,rate, tol,window_size = 4096):
         clip the wavedata so that it has shorter tail
         return the end point of the wavedata
     """
+    # return 4.0*44100
     sound = False
     start_points = find_cutoff(wavedata, rate)
     start_point = int(start_points[0] + 0.2 * 44100)
@@ -128,6 +129,7 @@ def clip_wavedata(wavedata,rate, tol,window_size = 4096):
         else:
             sound = True
     return len(wavedata)
+
 
 
 def save_guitar_nodes():
@@ -182,9 +184,9 @@ def plot_time_domain(wavedata, rate, fn=None):
     x = find_start(X, rate)
     print x
     plt.plot((x/44100.0, x/44100.0),(-8000,8000),'k-')
-    end_point = clip_wavedata(X,rate, 0.1)
-    end = end_point / 44100.0
-    plt.plot((end,end), (-8000,8000), 'r-')
+    # end_point = clip_wavedata(X,rate, 0.1)
+    # end = end_point / 44100.0
+    # plt.plot((end,end), (-8000,8000), 'r-')
 
     timp = len(X) / float(rate)
     t = np.linspace(0,timp,len(X))
@@ -230,5 +232,5 @@ def preprocess(file_path):
 
 if __name__ == "__main__":
     X, y = preprocess(TEST_DATA)
-    print y
+    plot_time_domain(X, 44100)
 
