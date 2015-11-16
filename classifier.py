@@ -75,7 +75,7 @@ def select_features(rf):
     return [tup[0] for tup in ft_sorted]
 
 def rf_classify(X, y):
-    rf = RandomForestClassifier(500,criterion="gini", n_jobs=-1)
+    rf = RandomForestClassifier(500,criterion="entropy", n_jobs=-1)
     test_score, train_score, cms = train_model(X, y, rf)
 
     print(var_importance(rf))
@@ -86,7 +86,7 @@ def rf_classify(X, y):
 def knn_classify(X, y):
     X = np.asarray(X)
     y = np.asarray(y)
-    knn = KNeighborsClassifier(n_neighbors = 3, weights = 'distance', p=1) # manhattan_distance
+    knn = KNeighborsClassifier(n_neighbors = 4, weights = 'distance', p=1) # manhattan_distance
     test_score, train_score, cms = train_model(X, y, knn)
     print cms
     print("test_score : %f\ntrain_score: %f\n" %(test_score, train_score))
@@ -135,7 +135,7 @@ def plot_select_features(X, y):
     plt.savefig(os.path.join('.', 'image', 'feature', "%s.png" % "svm_tuning_best_features"), bbox_inches="tight")
 
 def svm_tuning(X, y):
-    C_range = np.linspace(5, 10, 20)
+    C_range = np.linspace(1, 10, 20)
     gamma_range = np.linspace(0.001, 0.015, 20)
     param_grid = dict(gamma=gamma_range, C=C_range)
     cv = cross_validation.StratifiedKFold(y, n_folds=4, shuffle=True,random_state=5)
@@ -145,7 +145,7 @@ def svm_tuning(X, y):
     return grid.best_score_, None
 
 def svm_classifier(X, y):
-    svm = SVC(C=6.0526315789473681, gamma=0.004684210526315789)
+    svm = SVC(C=4.7894736842105257, gamma=0.012052631578947367)
     test_score, train_score, cms = train_model(X, y, svm)
 
     print("test_score : %f\ntrain_score: %f\n" %(test_score, train_score))
@@ -169,11 +169,12 @@ def predict(clf, file_path, scaler=None, n_features=None):
 
 
 if __name__ == "__main__":
-    X, y, scaler = read_instruments(standardize=True)
+    X, y, scaler = read_class(standardize=True)
     # selected_features = important_features(X, 38)
-    rtest_score, train_score, rf = knn_classify(X, y)
+    # rtest_score, train_score, rf = rf_classify(X, y)
+    # svm_tuning(X, y)
 
-    # test_score, train_score, rf = rf_classify(X, y)
+    test_score, train_score, svm = svm_classifier(X, y)
     # predict(svm, TEST_DATA, scaler=scaler, n_features=38)
 
 

@@ -51,24 +51,23 @@ for woodwinds.Oboe, we have 35 samples
 ## Classification
 ### 3nn
 To classify the instruments, all feaures give 92.942% test scores.
+To classify the families, all feaures give 99.308%
 
 ### Random Forest
 To classify the instruments, all features give 96.546% test scores.
-
+To classify the families, all feaures give 98.889%
 
 
 ### SVM with RBF kernel
 To classify the instruments, all features give 97.372% test scores.
     `params = (C=6.0526315789473681, gamma=0.004684210526315789)`
 
-To classify the instruments, the best 37 features gives 0.975139.
-    `params = (C=7.4736842105263159, gamma=0.0065789473684210523)`
-
-To classify the class of the instruments, all features gives 0.994444.
-    `params = (C=4.3157894736842106, gamma=0.0086842105263157891)`
+To classify the families, all features give 99.442%.
+    `params = (C=4.7894736842105257, gamma=0.012052631578947367)`
 
 remove rms features with 0.975132
     `params = (C=8.6842105263157894, gamma=0.01131578947368421)`
+
 string_guitar_C2.wav -> guitar
 string_guitar_C3.wav -> piano
 keyboard_piano_C2.wav -> Cello
