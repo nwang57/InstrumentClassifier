@@ -49,17 +49,17 @@ for woodwinds.Oboe, we have 35 samples
 
 
 ## Classification
-### 1nn
-To classify the instruments, the best 8 feaures gives 0.754437 test scores.
+### 3nn
+To classify the instruments, all feaures give 92.942% test scores.
 
 ### Random Forest
-To classify the instruments, the best 27 feaures gives 0.961376 test scores, the best 37 gives 0.962750.
+To classify the instruments, all features give 96.546% test scores.
 
 
 
 ### SVM with RBF kernel
-To classify the instruments, all features gives 0.970956.
-    `params = (C=5.2631578947368416, gamma=0.0097368421052631566)`
+To classify the instruments, all features give 97.372% test scores.
+    `params = (C=6.0526315789473681, gamma=0.004684210526315789)`
 
 To classify the instruments, the best 37 features gives 0.975139.
     `params = (C=7.4736842105263159, gamma=0.0065789473684210523)`
@@ -73,7 +73,8 @@ string_guitar_C2.wav -> guitar
 string_guitar_C3.wav -> piano
 keyboard_piano_C2.wav -> Cello
 keyboard_piano_C3.wav -> Piano
-ft_idx = [16, 44, 43, 0, 17, 41, 10, 6, 7,21, 9,8, 42, 18, 29, 40, 19, 2, 3, 15, 11, 27, 38, 20, 1, 28, 31, 35, 34, 24, 36, 22, 30, 32, 33, 39, 37, 23, 26, 25]
+
+
 ## Resources
 
  * [MPEG-7 Audio Descriptors](http://www-sipl.technion.ac.il/Info/Teaching_Projects_MPEG-7-Audio-Descriptors_e.shtml)

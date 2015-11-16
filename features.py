@@ -207,7 +207,7 @@ def feature_matrix():
 def feature_names():
     feature_names = ["spectralCentroid_mean", "spectralCentroid_std", "spectralSpread_mean", "spectralSpread_std",
                      "spectralFlux_mean", "spectralFlux_std", "spectralIrregularity_mean", "spectralIrregularity_std",
-                     "spectralFlatness_mean", "spectralFlatness.std", "zeroCrossingRate_mean", "zeroCrossingRate_std"
+                     "spectralFlatness_mean", "spectralFlatness_std", "zeroCrossingRate_mean", "zeroCrossingRate_std"
                      "rootMeanSquare_mean","rootMeanSquare_std"]
     mfcc_names = ["mfcc%d_%s" % (ind, stat) for stat in ["mean","std"] for ind in xrange(1,14) ]
     harmonic_names = ["harmonicCentroid", "harmonicDeviation", "harmonicSpead"]

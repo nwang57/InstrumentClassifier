@@ -52,7 +52,7 @@ def train_model(X, y, clf):
         test_scores.append(test_score)
 
         y_predict = clf.predict(X_test)
-        cm = confusion_matrix(y_test, y_predict, labels=TARGET_INSTRUMENTS)
+        cm = confusion_matrix(y_test, y_predict, labels=TARGET_CLASS)
         cms.append(cm)
     return np.mean(test_scores), np.mean(train_scores), np.asarray(cms)
 
@@ -75,7 +75,7 @@ def select_features(rf):
     return [tup[0] for tup in ft_sorted]
 
 def rf_classify(X, y):
-    rf = RandomForestClassifier(500,criterion="entropy", n_jobs=-1)
+    rf = RandomForestClassifier(500,criterion="gini", n_jobs=-1)
     test_score, train_score, cms = train_model(X, y, rf)
 
     print(var_importance(rf))
@@ -86,8 +86,9 @@ def rf_classify(X, y):
 def knn_classify(X, y):
     X = np.asarray(X)
     y = np.asarray(y)
-    knn = KNeighborsClassifier(n_neighbors = 1, weights = 'distance', p=1) # manhattan_distance
+    knn = KNeighborsClassifier(n_neighbors = 3, weights = 'distance', p=1) # manhattan_distance
     test_score, train_score, cms = train_model(X, y, knn)
+    print cms
     print("test_score : %f\ntrain_score: %f\n" %(test_score, train_score))
     return test_score, train_score, knn
 
@@ -115,8 +116,8 @@ def read_class(standardize=False):
 
 def important_features(X, n):
     """take the best n features"""
-    # ft_idx = [13, 16, 14, 12, 44, 43, 0, 17, 41, 10, 6, 7, 9, 21, 8, 4, 42, 18, 29, 40, 5, 19, 2, 3, 15, 11, 27, 38, 20, 1, 28, 31, 35, 34, 24, 36, 22, 30, 32, 33, 39, 37, 23, 26, 25]
-    ft_idx = [16, 44, 43, 0, 17, 41, 10, 6, 7,21,42, 18, 29, 40, 19, 2, 3, 15, 11, 27, 38, 20, 1, 28, 31, 35, 34, 24, 36, 22, 30, 32, 33, 39, 37, 23, 26, 25]
+    ft_idx = [13, 16, 14, 12, 44, 43, 0, 17, 41, 10, 6, 7, 9, 21, 8, 4, 42, 18, 29, 40, 5, 19, 2, 3, 15, 11, 27, 38, 20, 1, 28, 31, 35, 34, 24, 36, 22, 30, 32, 33, 39, 37, 23, 26, 25]
+    # ft_idx = [16, 44, 43, 0, 17, 41, 10, 6, 7,21,42, 18, 29, 40, 19, 2, 3, 15, 11, 27, 38, 20, 1, 28, 31, 35, 34, 24, 36, 22, 30, 32, 33, 39, 37, 23, 26, 25]
     return X[:,ft_idx[:n]]
 
 def plot_select_features(X, y):
@@ -134,7 +135,7 @@ def plot_select_features(X, y):
     plt.savefig(os.path.join('.', 'image', 'feature', "%s.png" % "svm_tuning_best_features"), bbox_inches="tight")
 
 def svm_tuning(X, y):
-    C_range = np.linspace(5, 20, 20)
+    C_range = np.linspace(5, 10, 20)
     gamma_range = np.linspace(0.001, 0.015, 20)
     param_grid = dict(gamma=gamma_range, C=C_range)
     cv = cross_validation.StratifiedKFold(y, n_folds=4, shuffle=True,random_state=5)
@@ -144,7 +145,7 @@ def svm_tuning(X, y):
     return grid.best_score_, None
 
 def svm_classifier(X, y):
-    svm = SVC(C=14.736842105263158, gamma=0.0061578947368421044)
+    svm = SVC(C=6.0526315789473681, gamma=0.004684210526315789)
     test_score, train_score, cms = train_model(X, y, svm)
 
     print("test_score : %f\ntrain_score: %f\n" %(test_score, train_score))
@@ -169,11 +170,10 @@ def predict(clf, file_path, scaler=None, n_features=None):
 
 if __name__ == "__main__":
     X, y, scaler = read_instruments(standardize=True)
-    selected_features = important_features(X, 38)
-    test_score, train_score, svm = svm_classifier(selected_features , y)
+    # selected_features = important_features(X, 38)
+    rtest_score, train_score, rf = knn_classify(X, y)
 
     # test_score, train_score, rf = rf_classify(X, y)
-    # svm_tuning(selected_features, y)
-    predict(svm, TEST_DATA, scaler=scaler, n_features=38)
+    # predict(svm, TEST_DATA, scaler=scaler, n_features=38)
 
 
