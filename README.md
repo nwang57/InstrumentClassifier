@@ -73,7 +73,7 @@ string_guitar_C2.wav -> guitar
 string_guitar_C3.wav -> piano
 keyboard_piano_C2.wav -> Cello
 keyboard_piano_C3.wav -> Piano
-
+ft_idx = [16, 44, 43, 0, 17, 41, 10, 6, 7,21, 9,8, 42, 18, 29, 40, 19, 2, 3, 15, 11, 27, 38, 20, 1, 28, 31, 35, 34, 24, 36, 22, 30, 32, 33, 39, 37, 23, 26, 25]
 ## Resources
 
  * [MPEG-7 Audio Descriptors](http://www-sipl.technion.ac.il/Info/Teaching_Projects_MPEG-7-Audio-Descriptors_e.shtml)

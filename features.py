@@ -96,7 +96,7 @@ def spectralFlux(frame, pre_frame):
 
 def spectralIrregularity(frame):
     """measure the jaggedness of the spectral envelop"""
-    return np.sum((np.diff(frame) ** 2)) / np.sum(frame)
+    return np.sum((np.diff(frame) ** 2)) / energy(frame)
 
 def spectralFlatness(frame):
     geomean = np.exp(np.sum(np.log(frame))/len(frame))
@@ -138,8 +138,8 @@ def extractTemporalFeature(wavedata):
     rmss = []
     for frame in sliding_window(wavedata, 1024, 512):
         zcrs.append(zcr(frame, np.max(np.abs(wavedata))))
-        # rmss.append(rms(frame))
-    return [zcrs]
+        rmss.append(rms(frame))
+    return [zcrs, rmss]
 
 def extractSpectralFeature(wavedata, rate):
     """frequency domain features"""
@@ -208,7 +208,7 @@ def feature_names():
     feature_names = ["spectralCentroid_mean", "spectralCentroid_std", "spectralSpread_mean", "spectralSpread_std",
                      "spectralFlux_mean", "spectralFlux_std", "spectralIrregularity_mean", "spectralIrregularity_std",
                      "spectralFlatness_mean", "spectralFlatness.std", "zeroCrossingRate_mean", "zeroCrossingRate_std"
-                     ]
+                     "rootMeanSquare_mean","rootMeanSquare_std"]
     mfcc_names = ["mfcc%d_%s" % (ind, stat) for stat in ["mean","std"] for ind in xrange(1,14) ]
     harmonic_names = ["harmonicCentroid", "harmonicDeviation", "harmonicSpead"]
     temporal_names = ["logAttackTime", "temporalCentroid"]
@@ -216,14 +216,15 @@ def feature_names():
 
 def save_feature_matrix(X,Y):
     print len(X)
-    pickle.dump(X, open('features2.p', 'w'))
+    pickle.dump(X, open('features_test.p', 'w'))
     pickle.dump(Y, open('labels.p', 'w'))
 
 def read_features():
-    X = pickle.load(open('features2.p', 'rb'))
+    X = pickle.load(open('features_test.p', 'rb'))
     Y = pickle.load(open('labels.p','rb'))
     return X, Y
 
 if __name__ == "__main__":
-    X, Y = read_features()
-    print len(X[0])
+    X, Y = feature_matrix()
+    save_feature_matrix(X, Y)
+

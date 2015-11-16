@@ -8,7 +8,7 @@ import scipy.io.wavfile
 import matplotlib.pyplot as plt
 
 
-TEST_DATA = "/Users/nickwang/Documents/Programs/cs_project/resources/data/test/string_guitar_C2.wav"
+TEST_DATA = "/Users/nickwang/Documents/Programs/cs_project/resources/data/test/keyboard_piano_C3.wav"
 DATA_DIR = "/Users/nickwang/Documents/Programs/cs_project/resources/data"
 DATA = "Cello.arco.ff.sulA.A4.stereo.wav"
 TARGET_INSTRUMENTS = ["TenorTrombone", "Trumpet", "Tuba",
@@ -201,6 +201,9 @@ def plot_time_domain(wavedata, rate, fn=None):
 
 def stft(wavedata, fs, window_size, hopsize, mode='psd'):
     spec, f, t, p = plt.specgram(wavedata, Fs=fs,NFFT=window_size, noverlap=(window_size-hopsize), mode=mode, scale='dB')
+
+    plt.ylabel('Frequency')
+    plt.xlabel('Time')
     plt.close()
     return spec, f, t
 
@@ -210,15 +213,16 @@ def norm(spec):
 
 def spectrum(wavedata,window_size,mode='psd'):
     spec, f, t = stft(wavedata, 44100, window_size, window_size, mode=mode)
-    spectrum = np.sqrt(np.mean(spec, axis=1))
+    # to transform to dB scale: 10*log(psd)
+    spectrum = np.mean(spec, axis=1)
     return spectrum, f
 
 def plot_spectrum(wavedata,window_size,mode='psd'):
     spec, f = spectrum(wavedata, window_size)
     plt.plot(f,spec)
     plt.xlabel('Freq')
-    plt.xscale('log')
-    plt.ylabel('Magnitude')
+    # plt.xscale('log')
+    plt.ylabel('Power (dB)')
     plt.show()
 
 def preprocess(file_path):

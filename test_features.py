@@ -1,16 +1,17 @@
 from __future__ import division
 from features import *
 from feature_helper import estimated_f0, harmonics
-from utils import stft, plot_spectrum, plot_time_domain,read_all_wavedata
+from utils import stft, plot_spectrum, plot_time_domain,read_all_wavedata,plot_feature
 
-TEST_DATA = "/Users/nickwang/Documents/Programs/cs_project/resources/data/string/Guitar.npy"
+TEST_DATA = "/Users/nickwang/Documents/Programs/cs_project/resources/data/woodwinds/AltoSax.npy"
 DATA = np.load(TEST_DATA)
 
 def test_feature():
     data = DATA[0]
-    ftnames = feature_names()
-    ft = extract_all_features(data, 44100)
-    print zip(ftnames, ft)
+    res = extractSpectralFeature(data, 44100)
+    sis = res[3]
+    plot_feature(sis,data)
+
 
 def test_LAT():
     data = DATA[0]
@@ -52,4 +53,4 @@ def test_plot_time_domain():
     print(Y[513])
 
 if __name__ == "__main__":
-    print test_mfcc()
+    print test_spectrum()

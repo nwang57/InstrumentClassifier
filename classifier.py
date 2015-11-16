@@ -115,7 +115,8 @@ def read_class(standardize=False):
 
 def important_features(X, n):
     """take the best n features"""
-    ft_idx = [13, 16, 14, 12, 44, 43, 0, 17, 41, 10, 6, 7, 9, 21, 8, 4, 42, 18, 29, 40, 5, 19, 2, 3, 15, 11, 27, 38, 20, 1, 28, 31, 35, 34, 24, 36, 22, 30, 32, 33, 39, 37, 23, 26, 25]
+    # ft_idx = [13, 16, 14, 12, 44, 43, 0, 17, 41, 10, 6, 7, 9, 21, 8, 4, 42, 18, 29, 40, 5, 19, 2, 3, 15, 11, 27, 38, 20, 1, 28, 31, 35, 34, 24, 36, 22, 30, 32, 33, 39, 37, 23, 26, 25]
+    ft_idx = [16, 44, 43, 0, 17, 41, 10, 6, 7,21,42, 18, 29, 40, 19, 2, 3, 15, 11, 27, 38, 20, 1, 28, 31, 35, 34, 24, 36, 22, 30, 32, 33, 39, 37, 23, 26, 25]
     return X[:,ft_idx[:n]]
 
 def plot_select_features(X, y):
@@ -133,8 +134,8 @@ def plot_select_features(X, y):
     plt.savefig(os.path.join('.', 'image', 'feature', "%s.png" % "svm_tuning_best_features"), bbox_inches="tight")
 
 def svm_tuning(X, y):
-    C_range = np.linspace(5, 15, 20)
-    gamma_range = np.linspace(0.005, 0.015, 20)
+    C_range = np.linspace(5, 20, 20)
+    gamma_range = np.linspace(0.001, 0.015, 20)
     param_grid = dict(gamma=gamma_range, C=C_range)
     cv = cross_validation.StratifiedKFold(y, n_folds=4, shuffle=True,random_state=5)
     grid = GridSearchCV(SVC(), param_grid=param_grid, cv=cv)
@@ -143,7 +144,7 @@ def svm_tuning(X, y):
     return grid.best_score_, None
 
 def svm_classifier(X, y):
-    svm = SVC(C=8.6842105263157894, gamma=0.01131578947368421)
+    svm = SVC(C=14.736842105263158, gamma=0.0061578947368421044)
     test_score, train_score, cms = train_model(X, y, svm)
 
     print("test_score : %f\ntrain_score: %f\n" %(test_score, train_score))
@@ -153,26 +154,26 @@ def svm_classifier(X, y):
 def save_model(clf, fn):
     joblib.dump(clf, os.path.join('.','model',"%s.pkl" % fn))
 
-def predict(clf, file_path, scaler, n_features=None):
+def predict(clf, file_path, scaler=None, n_features=None):
     data, y = preprocess(file_path)
     X = extract_all_features(data, 44100)
     X = np.asmatrix(X)
     if scaler:
         X = scaler.transform(X)
-        print X
+
     if n_features:
         X = important_features(X, n_features)
-    print X.shape
+        print X.shape
     print(clf.predict(X))
 
 
 if __name__ == "__main__":
     X, y, scaler = read_instruments(standardize=True)
-    # selected_features = important_features(X, 38)
-    test_score, train_score, svm = svm_classifier(X , y)
+    selected_features = important_features(X, 38)
+    test_score, train_score, svm = svm_classifier(selected_features , y)
 
     # test_score, train_score, rf = rf_classify(X, y)
-
-    predict(svm, TEST_DATA, scaler)
+    # svm_tuning(selected_features, y)
+    predict(svm, TEST_DATA, scaler=scaler, n_features=38)
 
 
