@@ -74,6 +74,34 @@ keyboard_piano_C2.wav -> Cello
 keyboard_piano_C3.wav -> Piano
 
 
+temporal features
+{'C': 54.736842105263158, 'gamma': 0.076842105263157892}
+0.84232
+
+spectrual features
+{'C': 49.473684210526315, 'gamma': 0.15000000000000002}
+0.84786
+
+mfcc features
+{'C': 14.210526315789473, 'gamma': 0.0073684210526315788}
+0.94606
+
+mfcc + tempo
+{'C': 13.684210526315789, 'gamma': 0.0060526315789473685}
+0.96819
+
+mfcc + spectrual
+{'C': 9.0526315789473681, 'gamma': 0.0057894736842105266}
+0.96404
+
+temporal + spectrual
+{'C': 21.05263157894737, 'gamma': 0.013947368421052628}
+0.90456
+
+
+For MEPG-7 features, LAT has more unique information than others
+
+
 ## Resources
 
  * [MPEG-7 Audio Descriptors](http://www-sipl.technion.ac.il/Info/Teaching_Projects_MPEG-7-Audio-Descriptors_e.shtml)
