@@ -8,14 +8,14 @@ import scipy.io.wavfile
 import matplotlib.pyplot as plt
 
 
-TEST_DATA = "/Users/nickwang/Documents/Programs/cs_project/resources/data/test/string_guitar_C3.wav"
+TEST_DATA = "/Users/nickwang/Documents/Programs/cs_project/resources/data/test/keyboard_piano_C3.wav"
 DATA_DIR = "/Users/nickwang/Documents/Programs/cs_project/resources/data"
 DATA = "Cello.arco.ff.sulA.A4.stereo.wav"
 TARGET_INSTRUMENTS = ["TenorTrombone", "Trumpet", "Tuba",
                       "Piano",
                       "Cello", "Viola", "Violin", "Guitar",
                       "AltoSax", "EbClarinet", "Flute", "Oboe"]
-TARGET_CLASS = ["bass", "keyboard", "string", "woodwinds"]
+TARGET_CLASS = ["brass", "keyboard", "string", "woodwinds"]
 
 def read_all_wavedata():
     """

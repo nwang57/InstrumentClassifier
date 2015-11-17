@@ -217,11 +217,11 @@ def feature_names():
 def save_feature_matrix(X,Y):
     print len(X)
     pickle.dump(X, open('features_test.p', 'w'))
-    pickle.dump(Y, open('labels.p', 'w'))
+    pickle.dump(Y, open('labels2.p', 'w'))
 
 def read_features():
     X = pickle.load(open('features_test.p', 'rb'))
-    Y = pickle.load(open('labels.p','rb'))
+    Y = pickle.load(open('labels2.p','rb'))
     return X, Y
 
 if __name__ == "__main__":

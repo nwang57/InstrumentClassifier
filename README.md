@@ -25,9 +25,9 @@
 
 ## Data
 
-for bass.TenorTrombone, we have 33 samples
-for bass.Trumpet, we have 36 samples
-for bass.Tuba, we have 37 samples
+for brass.TenorTrombone, we have 33 samples
+for brass.Trumpet, we have 36 samples
+for brass.Tuba, we have 37 samples
 for keyboard.Piano, we have 88 samples
 for string.Cello, we have 95 samples
 for string.Guitar, we have 100 samples
