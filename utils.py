@@ -5,6 +5,7 @@ import glob
 import numpy as np
 import scipy
 import scipy.io.wavfile
+import warnings
 import matplotlib.pyplot as plt
 
 
@@ -200,7 +201,9 @@ def plot_time_domain(wavedata, rate, fn=None):
     plt.close()
 
 def stft(wavedata, fs, window_size, hopsize, mode='psd'):
-    spec, f, t, p = plt.specgram(wavedata, Fs=fs,NFFT=window_size, noverlap=(window_size-hopsize), mode=mode, scale='dB')
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        spec, f, t, p = plt.specgram(wavedata, Fs=fs,NFFT=window_size, noverlap=(window_size-hopsize), mode=mode, scale='dB')
 
     plt.ylabel('Frequency')
     plt.xlabel('Time')

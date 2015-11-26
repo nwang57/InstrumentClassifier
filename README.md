@@ -28,7 +28,7 @@
 for brass.TenorTrombone, we have 33 samples
 for brass.Trumpet, we have 36 samples
 for brass.Tuba, we have 37 samples
-for keyboard.Piano, we have 88 samples
+for keyboard.Piano, we have 87 samples
 for string.Cello, we have 95 samples
 for string.Guitar, we have 100 samples
 for string.Viola, we have 100 samples
@@ -98,6 +98,25 @@ temporal + spectrual
 {'C': 21.05263157894737, 'gamma': 0.013947368421052628}
 0.90456
 
+
+MEPG features
+{'C': 60.263157894736842, 'gamma': 0.22631578947368422}
+0.82988
+
+perception features
+{'C': 76.05263157894737, 'gamma': 0.053684210526315793}
+0.89765
+
+MFCC + perception features
+{'C': 5.2631578947368416, 'gamma': 0.0061578947368421053}
+0.96819
+
+MFCC + MPEG
+
+
+Improved model
+{'C': 4.3157894736842106, 'gamma': 0.012894736842105264}
+0.96819
 
 For MEPG-7 features, LAT has more unique information than others
 

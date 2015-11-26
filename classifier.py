@@ -142,6 +142,7 @@ def important_features(X, n):
 
 def imporved_features():
     return [16, 44, 43, 0, 17, 41, 6, 7,21,42, 18, 29, 40, 19, 2, 3, 27, 38, 20, 1, 28, 31, 35, 34, 24, 36, 22, 30, 32, 33, 39, 37, 23, 26, 25]
+    # return [16, 44, 43, 0, 17, 41, 6, 7,21,42, 18, 29, 40, 19, 2, 3, 27, 20, 1, 28, 31, 24, 22, 30, 32, 33, 23, 26, 25]
 
 def temporal_features():
     """return only the temoral feautures"""
@@ -153,10 +154,13 @@ def spectrual_features():
 
 def mfcc_features():
     """return only the mfcc features"""
-    return range(16,40)
+    return range(14,40)
 
 def mfpg_features():
-    return [40,41, 42,43,44]
+    return [0,40,41,42,43,44]
+
+def perception_features():
+    return range(14)
 
 def plot_select_features(X, y):
     """plot the training score and test score against best n features"""
@@ -175,7 +179,7 @@ def plot_select_features(X, y):
 def svm_tuning(X, y):
     print X.shape
     C_range = np.linspace(1, 10, 20)
-    gamma_range = np.linspace(0.01, 0.025, 20)
+    gamma_range = np.linspace(0.005, 0.02, 20)
     param_grid = dict(gamma=gamma_range, C=C_range)
     cv = cross_validation.StratifiedKFold(y, n_folds=4, shuffle=True,random_state=5)
     grid = GridSearchCV(SVC(), param_grid=param_grid, cv=cv)
@@ -203,17 +207,19 @@ def predict(clf, file_path, scaler=None):
     X = np.asmatrix(X)
     if scaler:
         X = scaler.transform(X)
-    print(clf.predict(X[:,imporved_features()]))
+    res = clf.predict(X[:,imporved_features()])[0]
+    return res
 
 
 
 if __name__ == "__main__":
     X, y, scaler = read_class(standardize=True)
+    # ft = imporved_features()
+    # svm_tuning(X[:,ft], y)
+    # test_score, train_score, svm = svm_classifier(X[:,mfpg], y)
 
-    test_score, train_score, svm = svm_classifier(X[:,best_features], y)
 
-
-    predict(svm, TEST_DATA, scaler)
+    # predict(svm, TEST_DATA, scaler)
 
 
 
