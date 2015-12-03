@@ -107,18 +107,12 @@ perception features
 {'C': 76.05263157894737, 'gamma': 0.053684210526315793}
 0.89765
 
-MFCC + perception features
-{'C': 5.2631578947368416, 'gamma': 0.0061578947368421053}
-0.96819
-
-MFCC + MPEG
 
 
 Improved model
 {'C': 4.3157894736842106, 'gamma': 0.012894736842105264}
 0.96819
 
-For MEPG-7 features, LAT has more unique information than others
 
 
 ## Resources

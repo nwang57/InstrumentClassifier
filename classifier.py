@@ -101,7 +101,6 @@ def rf_classify(X, y):
 
     print(var_importance(rf))
     print("test_score : %f\ntrain_score: %f\n" %(test_score, train_score))
-    # print(cms)
     return test_score, train_score, rf
 
 def knn_classify(X, y):
