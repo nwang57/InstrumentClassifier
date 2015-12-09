@@ -15,8 +15,8 @@ def main():
     filename = args.filename
     check_format(filename)
 
-    model_instrument = load_model("svm_instrument")
-    model_family = load_model("svm_family")
+    model_instrument = load_model("29_svm_instrument")
+    model_family = load_model("29_svm_family")
     scaler = load_model("scaler_instrument")
     print("Family: %s" % predict(model_family, filename, scaler))
     print("Instrument: %s" % predict(model_instrument, filename, scaler))

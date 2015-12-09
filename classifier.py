@@ -190,7 +190,7 @@ def svm_tuning(X, y):
     return grid.best_score_, None
 
 def svm_classifier(X, y, task):
-    svm = SVC(C=6.0526315789473681, gamma=0.004684210526315789)
+    svm = SVC(C=4.3157894736842106, gamma=0.012894736842105264)
     test_score, train_score, cms = train_model(X, y, svm, task)
 
     print("test_score : %f\ntrain_score: %f\n" %(test_score, train_score))
@@ -205,7 +205,7 @@ def load_model(fn):
     return joblib.load(os.path.join('.','model',"%s.pkl" % fn))
 
 def predict(clf, file_path, scaler=None):
-    data, y = preprocess(file_path)
+    data = preprocess(file_path)
     X = extract_all_features(data, 44100)
     X = np.asmatrix(X)
     if scaler:

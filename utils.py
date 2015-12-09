@@ -229,9 +229,7 @@ def preprocess(file_path):
     X = np.mean(X, axis=1)
     start = find_start(X, rate)
     end = clip_wavedata(X,rate, 0.1)
-    class_name = os.path.basename(TEST_DATA).split('_')[0]
-    instrument = os.path.basename(TEST_DATA).split('_')[1]
-    return X[start:end], (class_name, instrument)
+    return X[start:end]
 
 if __name__ == "__main__":
     pass

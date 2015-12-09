@@ -6,6 +6,13 @@
 2. `Python 2.7.10 :: Anaconda 2.3.0 (x86_64)` I recommend using Anaconda python environment.
 3. Using virtual environment is a good practice, but make sure you have required packages.
 
+packages:
+scipy
+numpy
+sklearn
+pickle
+matplotlib
+
 # configuration
 
 ## Set data path
@@ -28,6 +35,7 @@ This will drastically reduce the amount time of reading data into memory.
 ## Preprocessing
 
 Please use the `save_wavedata` method in `utils.py` to preprocess the audio file and generate the .npy files. Notice that Guitar audio files are processed using `save_guitar_nodes` method in `utils.py`.
+Notice, the actual parameter tuning in preprocessing is complicated. The provided .npy files should do a pretty good job.
 
 # Usage
  * utils.py: read raw wave data, plots, stft method.
@@ -35,7 +43,7 @@ Please use the `save_wavedata` method in `utils.py` to preprocess the audio file
  * feature_helper.py: helper function for feature construction, esp for harmonics.
  * classifier.py: build classification model from the features.
  * classification.py: command line app that classifies the provided musical sample using saved model.
- # mfcc/: compute mel-frequency cepstral coefficient using others work.
+ * mfcc/: compute mel-frequency cepstral coefficient using others work.
 
 ## Feature generation
 
@@ -64,7 +72,6 @@ After you get a satisfying model, its time to test it out on real data! After yo
     + Timbral Temporal Descriptors:
         - Log Attack Time
         - Temporal Centroid
-
  * Spectral Features
     + Spectral Centroid [mean | var]
     + Spectral Spread [mean | var]
@@ -75,7 +82,6 @@ After you get a satisfying model, its time to test it out on real data! After yo
         - Harmonic Spectral Centroid
         - Harmonic Deviation Descriptor
         - Harmonic Spread Descriptor
-
  * MFCC
     + MFCC[2:14] [mean | var]
 
