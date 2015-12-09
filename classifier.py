@@ -11,15 +11,12 @@ from sklearn.decomposition import PCA
 from sklearn.externals import joblib
 
 from features import read_features, feature_names, extract_all_features
-from utils import TARGET_INSTRUMENTS, TARGET_CLASS, TEST_DATA, preprocess, read_all_wavedata
+from utils import TARGET_INSTRUMENTS, TARGET_CLASS, preprocess, read_all_wavedata
 import matplotlib.pyplot as plt
 
-#split into training and test
-#fit the training to classifier
-#score the test dataset
-#need variable importance
 
 def pca_transform(X, n_components, plot=False):
+    """PCA plot for data matrix X with specified number of components """
     pca = PCA(n_components=n_components)
     pca.fit(X)
     print(pca.explained_variance_ratio_)
@@ -50,16 +47,18 @@ def pca_rf(X, y, ):
     transformed_X = pca_transform(X, 5)
     rf_classify(transformed_X, y)
 
-def train_model(X, y, clf):
+def train_model(X, y, clf, task):
     """
         X : features matrix
         y : labels
         clf : classifier
+        task : 'instruments' or 'family'
     """
 
     cms = []
     train_scores = []
     test_scores = []
+    labels = TARGET_INSTRUMENTS if task == 'instruments' else TARGET_CLASS
 
     crossvalidation = cross_validation.StratifiedKFold(y, n_folds=4, shuffle=True,random_state=5)
     for train, test in crossvalidation:
@@ -73,7 +72,7 @@ def train_model(X, y, clf):
         test_scores.append(test_score)
 
         y_predict = clf.predict(X_test)
-        cm = confusion_matrix(y_test, y_predict, labels=TARGET_CLASS)
+        cm = confusion_matrix(y_test, y_predict, labels=labels)
         cms.append(cm)
     return np.mean(test_scores), np.mean(train_scores), np.asarray(cms)
 
@@ -95,24 +94,26 @@ def select_features(rf):
     ft_sorted = sorted(ft, key=lambda x: x[1], reverse=True)
     return [tup[0] for tup in ft_sorted]
 
-def rf_classify(X, y):
+def rf_classify(X, y, task):
     rf = RandomForestClassifier(500,criterion="gini", n_jobs=-1)
-    test_score, train_score, cms = train_model(X, y, rf)
+    test_score, train_score, cms = train_model(X, y, rf, task)
 
-    print(var_importance(rf))
     print("test_score : %f\ntrain_score: %f\n" %(test_score, train_score))
     return test_score, train_score, rf
 
-def knn_classify(X, y):
+def knn_classify(X, y, task):
     X = np.asarray(X)
     y = np.asarray(y)
     knn = KNeighborsClassifier(n_neighbors = 4, weights = 'distance', p=1) # manhattan_distance
-    test_score, train_score, cms = train_model(X, y, knn)
+    test_score, train_score, cms = train_model(X, y, knn, task)
     print cms
     print("test_score : %f\ntrain_score: %f\n" %(test_score, train_score))
     return test_score, train_score, knn
 
 def read_instruments(standardize=False):
+    """read featuers into X and labels for individual instruments into y. if standardize set to true, then it will return a scaler that is
+    used to transform the test dataset
+    """
     X, y = read_features()
     instruments = [ins[1] for ins in y]
     X = np.asarray(X)
@@ -124,6 +125,9 @@ def read_instruments(standardize=False):
     return X, y, scaler
 
 def read_class(standardize=False):
+    """read featuers into X and labels for instruments family into y. if standardize set to true, then it will return a scaler that is
+    used to transform the test dataset.
+    """
     X, y = read_features()
     instruments = [ins[0] for ins in y]
     X = np.asarray(X)
@@ -140,8 +144,7 @@ def important_features(X, n):
     return X[:,ft_idx[:n]]
 
 def imporved_features():
-    return [16, 44, 43, 0, 17, 41, 6, 7,21,42, 18, 29, 40, 19, 2, 3, 27, 38, 20, 1, 28, 31, 35, 34, 24, 36, 22, 30, 32, 33, 39, 37, 23, 26, 25]
-    # return [16, 44, 43, 0, 17, 41, 6, 7,21,42, 18, 29, 40, 19, 2, 3, 27, 20, 1, 28, 31, 24, 22, 30, 32, 33, 23, 26, 25]
+    return [16, 44, 43, 0, 17, 41, 6, 7,21,42, 18, 29, 40, 19, 2, 3, 27, 20, 1, 28, 31, 24, 22, 30, 32, 33, 23, 26, 25]
 
 def temporal_features():
     """return only the temoral feautures"""
@@ -186,15 +189,16 @@ def svm_tuning(X, y):
     print("The best parameters are %s with a score of %0.5f" % (grid.best_params_, grid.best_score_))
     return grid.best_score_, None
 
-def svm_classifier(X, y):
-    svm = SVC(C=2.4210526315789473, gamma=0.023421052631578947)
-    test_score, train_score, cms = train_model(X, y, svm)
+def svm_classifier(X, y, task):
+    svm = SVC(C=6.0526315789473681, gamma=0.004684210526315789)
+    test_score, train_score, cms = train_model(X, y, svm, task)
 
     print("test_score : %f\ntrain_score: %f\n" %(test_score, train_score))
     print(cms)
     return test_score, train_score, svm
 
 def save_model(clf, fn):
+    """save the classification model into model dir"""
     joblib.dump(clf, os.path.join('.','model',"%s.pkl" % fn))
 
 def load_model(fn):
@@ -212,13 +216,9 @@ def predict(clf, file_path, scaler=None):
 
 
 if __name__ == "__main__":
-    X, y, scaler = read_class(standardize=True)
-    # ft = imporved_features()
-    # svm_tuning(X[:,ft], y)
-    # test_score, train_score, svm = svm_classifier(X[:,mfpg], y)
-
-
-    # predict(svm, TEST_DATA, scaler)
+    X, y, scaler = read_instruments(standardize=True)
+    ft = imporved_features()
+    test_score, train_score, svm = svm_classifier(X[:,ft], y, 'instruments')
 
 
 

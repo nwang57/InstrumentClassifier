@@ -79,8 +79,6 @@ def estimated_f0(wavedata, window_size):
     ipeak = np.argmax(spec)
     if ipeak:
         ipeak2 = np.argmax(spec[:ipeak])
-        # print spec[ipeak]
-        # print spec[ipeak2]
         if spec[ipeak] - spec[ipeak2] < 0.2 * abs(spec[ipeak]):
             ipeak = ipeak2
     i_interp = parabolic(spec, ipeak)[0]

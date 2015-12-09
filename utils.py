@@ -9,9 +9,8 @@ import warnings
 import matplotlib.pyplot as plt
 
 
-TEST_DATA = "/Users/nickwang/Documents/Programs/cs_project/resources/data/test/keyboard_piano_C3.wav"
-DATA_DIR = "/Users/nickwang/Documents/Programs/cs_project/resources/data"
-DATA = "Cello.arco.ff.sulA.A4.stereo.wav"
+
+DATA_DIR = "Populate ME with the correct path to data"
 TARGET_INSTRUMENTS = ["TenorTrombone", "Trumpet", "Tuba",
                       "Piano",
                       "Cello", "Viola", "Violin", "Guitar",
@@ -46,7 +45,6 @@ def read_all_wavedata():
                 for x in data:
                     start = find_start(x,44100)
                     X.append(x[start:])
-                    # X.append(x)
     return X, Y
 
 
@@ -183,11 +181,10 @@ def plot_time_domain(wavedata, rate, fn=None):
 
     # draw cut off point
     x = find_start(X, rate)
-    print x
     plt.plot((x/44100.0, x/44100.0),(-8000,8000),'k-')
-    # end_point = clip_wavedata(X,rate, 0.1)
-    # end = end_point / 44100.0
-    # plt.plot((end,end), (-8000,8000), 'r-')
+    end_point = clip_wavedata(X,rate, 0.1)
+    end = end_point / 44100.0
+    plt.plot((end,end), (-8000,8000), 'r-')
 
     timp = len(X) / float(rate)
     t = np.linspace(0,timp,len(X))
@@ -224,7 +221,6 @@ def plot_spectrum(wavedata,window_size,mode='psd'):
     spec, f = spectrum(wavedata, window_size)
     plt.plot(f,spec)
     plt.xlabel('Freq')
-    # plt.xscale('log')
     plt.ylabel('Power (dB)')
     plt.show()
 
@@ -238,6 +234,5 @@ def preprocess(file_path):
     return X[start:end], (class_name, instrument)
 
 if __name__ == "__main__":
-    X, y = preprocess(TEST_DATA)
-    plot_time_domain(X, 44100)
+    pass
 
