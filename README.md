@@ -122,53 +122,63 @@ To classify the families, all feaures give 98.889%
 
 ### SVM with RBF kernel
 To classify the instruments, all features give 97.372% test scores.
-    `params = (C=6.0526315789473681, gamma=0.004684210526315789)`
+>`params = (C=6.0526315789473681, gamma=0.004684210526315789)`
 
 To classify the families, all features give 99.442%.
-    `params = (C=4.7894736842105257, gamma=0.012052631578947367)`
+>`params = (C=4.7894736842105257, gamma=0.012052631578947367)`
 
 remove rms features with 0.975132
-    `params = (C=8.6842105263157894, gamma=0.01131578947368421)`
+>`params = (C=8.6842105263157894, gamma=0.01131578947368421)`
 
-temporal features
-{'C': 54.736842105263158, 'gamma': 0.076842105263157892}
-0.84232
+temporal features:
+>{'C': 54.736842105263158, 'gamma': 0.076842105263157892}
 
-spectrual features
-{'C': 49.473684210526315, 'gamma': 0.15000000000000002}
-0.84786
+>0.84232
 
-mfcc features
-{'C': 14.210526315789473, 'gamma': 0.0073684210526315788}
-0.94606
+spectrual features:
+>{'C': 49.473684210526315, 'gamma': 0.15000000000000002}
 
-mfcc + tempo
-{'C': 13.684210526315789, 'gamma': 0.0060526315789473685}
-0.96819
+>0.84786
 
-mfcc + spectrual
-{'C': 9.0526315789473681, 'gamma': 0.0057894736842105266}
-0.96404
+mfcc features:
+>{'C': 14.210526315789473, 'gamma': 0.0073684210526315788}
 
-temporal + spectrual
-{'C': 21.05263157894737, 'gamma': 0.013947368421052628}
-0.90456
+>0.94606
 
-MEPG features
-{'C': 60.263157894736842, 'gamma': 0.22631578947368422}
-0.82988
+mfcc + tempo:
+>{'C': 13.684210526315789, 'gamma': 0.0060526315789473685}
 
-perception features
-{'C': 76.05263157894737, 'gamma': 0.053684210526315793}
-0.89765
+>0.96819
 
-Improved model for indivisual instruments
-{'C': 4.3157894736842106, 'gamma': 0.012894736842105264}
-0.96819
+mfcc + spectrual:
+>{'C': 9.0526315789473681, 'gamma': 0.0057894736842105266}
 
-Improved model for instrument family
-{'C': 2.4210526315789473, 'gamma': 0.023421052631578947}
-0.987515
+>0.96404
+
+temporal + spectrual:
+>{'C': 21.05263157894737, 'gamma': 0.013947368421052628}
+
+>0.90456
+
+MEPG features:
+>{'C': 60.263157894736842, 'gamma': 0.22631578947368422}
+
+>0.82988
+
+perception features:
+>{'C': 76.05263157894737, 'gamma': 0.053684210526315793}
+
+>0.89765
+
+Improved model for indivisual instruments:
+>{'C': 4.3157894736842106, 'gamma': 0.012894736842105264}
+
+>0.96819
+
+Improved model for instrument family:
+>{'C': 2.4210526315789473, 'gamma': 0.023421052631578947}
+
+>0.987515
 
 
 

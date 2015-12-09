@@ -190,7 +190,7 @@ def svm_tuning(X, y):
     return grid.best_score_, None
 
 def svm_classifier(X, y, task):
-    svm = SVC(C=4.3157894736842106, gamma=0.012894736842105264)
+    svm = SVC(C=6.0526315789473681, gamma=0.004684210526315789)
     test_score, train_score, cms = train_model(X, y, svm, task)
 
     print("test_score : %f\ntrain_score: %f\n" %(test_score, train_score))
@@ -217,8 +217,7 @@ def predict(clf, file_path, scaler=None):
 
 if __name__ == "__main__":
     X, y, scaler = read_instruments(standardize=True)
-    ft = imporved_features()
-    test_score, train_score, svm = svm_classifier(X[:,ft], y, 'instruments')
+    test_score, train_score, svm = svm_classifier(X, y, 'instruments')
 
 
 
